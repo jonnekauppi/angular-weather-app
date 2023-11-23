@@ -1,0 +1,54 @@
+ul {
+    margin: 0;
+    list-style: none;
+    padding: 1px;
+    border: 1px solid black;
+    width: calc(100% - 90px);
+    position: absolute;
+    top: 38px;
+    z-index: 1;
+    background-color: #fff;
+    border-radius: 2px;
+    font-size: 12px;
+}
+li {
+    padding: 3px;
+}
+
+li:hover {
+    background-color: #ccc;
+}
+
+.form-body {
+    min-width: 400px;
+    position: relative;
+}
+
+.city-name-input {
+    width: 300px;
+    padding-left: 10px;
+    height: 50px;
+}
+
+.unit-row {
+    padding-left: 2px;
+    display: inline-flex;
+}
+
+.search-button {
+    width: 80px;
+}
+
+.list-group {
+    margin-top: 10px;
+}
+
+@media (max-width: 400px) {
+    .city-name-input {
+        width: 200px;
+        padding-left: 10px;
+        height: 50px;
+    }
+  }
+
+  

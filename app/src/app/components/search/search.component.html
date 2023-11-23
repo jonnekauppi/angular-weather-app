@@ -1,0 +1,35 @@
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-3 form-body">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control city-name-input" formControlName="cityName"
+            placeholder="Name of city (e.g., Helsinki, FI)" data-cy="city-name-input">
+        <button class="btn btn-primary search-button" style="margin-left: 10px; border-radius: 0px 5px 5px 0px;"
+            type="submit" data-cy="submit-button">
+            {{ "search.search" | translate }}
+        </button>
+        <div class="mb-3 unit-row">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="unit" id="metric" value="metric"
+                    data-cy="radio-metric" checked>
+                <label class="form-check-label" for="metric">{{ "search.metric" | translate }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="unit" id="imperial" value="imperial"
+                    data-cy="radio-imperial">
+                <label class="form-check-label" for="imperial">{{ "search.imperial" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <ul *ngIf="searchResults.length > 0" #resultsList class="list-group" data-cy="results-list">
+        <li *ngFor="let city of searchResults" (click)="onSelectCity(city)"
+            class="list-group-item list-group-item-action" data-cy="result-row">
+            {{ city.name }}, {{ city.sys.country }} (lat: {{city.coord.lat}}, lon: {{city.coord.lon}})
+        </li>
+    </ul>
+</form>
+
+<!-- Info Message -->
+<div *ngIf="infoMessage" class="alert alert-info mt-3" data-cy="info-message">
+    <p>{{ infoMessage }}</p>
+</div>

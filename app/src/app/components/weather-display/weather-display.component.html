@@ -1,0 +1,38 @@
+<div *ngIf="weatherData; else loading" class="card" data-cy="weather-container">
+    <div class="card-body">
+        <h4 class="card-title" data-cy="city-name">{{ weatherData.name }}</h4>
+        <div *ngFor="let weather of weatherData.weather" class="icon-container">
+            <img [src]="'http://openweathermap.org/img/wn/' + weather.icon + '.png'" alt="Weather Icon" />
+        </div>
+        <p class="card-text" data-cy="temperature-row">
+            <strong>{{"weather-display.temperature" | translate}}:</strong>
+            {{ weatherData.main.temp }} {{currentUnitTypes.temp}}
+        </p>
+        <p class="card-text">
+            <strong>{{"weather-display.weather" | translate}}:</strong>
+            {{ weatherData.weather[0].main }} ({{ weatherData.weather[0].description }})
+        </p>
+        <p class="card-text" *ngIf="weatherData.rain && weatherData.rain['1h']">
+            <strong>{{"weather-display.rain" | translate}}:</strong>
+            {{weatherData.rain['1h']}}mm {{"weather-display.last-1h" | translate}}
+        </p>
+        <p class="card-text" *ngIf="weatherData.snow && weatherData.snow['1h']">
+            <strong>{{"weather-display.snow" | translate}}:</strong>
+            {{weatherData.snow['1h']}}mm {{"weather-display.last-1h" | translate}}
+        </p>
+        <p class="card-text">
+            <strong>{{"weather-display.humidity" | translate}}:</strong>
+            {{ weatherData.main.humidity }}%
+        </p>
+        <p class="card-text" data-cy="wind-speed-row">
+            <strong>{{"weather-display.wind-speed" | translate}}:</strong>
+            {{ weatherData.wind.speed }} {{currentUnitTypes.speed}}
+        </p>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div *ngIf="isLoading" class="text-center">
+        <p class="text-muted">{{"weather-display.loading-info" | translate}}</p>
+    </div>
+</ng-template>
