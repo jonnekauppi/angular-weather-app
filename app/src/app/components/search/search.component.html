@@ -1,7 +1,7 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-3 form-body">
     <div class="input-group mb-3">
         <input type="text" class="form-control city-name-input" formControlName="cityName"
-            placeholder="Name of city (e.g., Helsinki, FI)" data-cy="city-name-input">
+            placeholder="{{'search.input-placeholder' | translate}}" data-cy="city-name-input">
         <button class="btn btn-primary search-button" style="margin-left: 10px; border-radius: 0px 5px 5px 0px;"
             type="submit" data-cy="submit-button">
             {{ "search.search" | translate }}

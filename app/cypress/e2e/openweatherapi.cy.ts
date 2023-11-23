@@ -8,7 +8,7 @@ describe('OpenWeatherApi Tests', () => {
     cy.visit(appUrl);
 
     // Check if the info message is visible when first time coming to the page
-    cy.get('[data-cy="info-message"]').contains('search.default-info-message');
+    cy.get('[data-cy="info-message"]').contains('Please enter a city name to search for weather data');
 
     // Check that the weather container is not visible when first time coming to the page
     cy.get('[data-cy="weather-container"]').should('not.exist');
@@ -83,6 +83,29 @@ describe('OpenWeatherApi Tests', () => {
     // Check that units are in correct format
     cy.get('[data-cy="temperature-row"]').contains('°F');
     cy.get('[data-cy="wind-speed-row"]').contains('mph');
+
+  });
+
+  it('should show 5 day data table', () => {
+    cy.visit(appUrl);
+
+    // Type a test city name into the input box
+    cy.get('[data-cy="city-name-input"]').type('London, GB');
+
+    // Select metric unit type
+    cy.get('[data-cy="radio-metric"]').click();
+
+    // Click the submit button
+    cy.get('[data-cy="submit-button"]').click();
+
+    // Change to 5 days tab
+    cy.get('[data-cy="tab-daily"]').click();
+
+    // Check that weather data is available
+    cy.get('[data-cy="five-day-table"]').should('be.visible');
+
+    // Check that container has at least one row with temperature data
+    cy.get('[data-cy="five-day-table"]').contains('°C');
 
   });
 

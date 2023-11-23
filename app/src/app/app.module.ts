@@ -8,6 +8,7 @@ import { WeatherDisplayComponent } from './components/weather-display/weather-di
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TabViewComponent } from './components/tab-view/tab-view.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -17,7 +18,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     SearchComponent,
-    WeatherDisplayComponent
+    WeatherDisplayComponent,
+    TabViewComponent
   ],
   imports: [
     BrowserModule,

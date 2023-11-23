@@ -4,7 +4,13 @@
         "metric": "Metric",
         "imperial": "Imperial",
         "default-info-message": "Please enter a city name to search for weather data",
-        "api-error-message": "Error trying to get weather data"
+        "api-error-message": "Error trying to get weather data",
+        "no-results-message": "No results found for your search",
+        "input-placeholder": "Name of city (e.g., Helsinki, FI)"
+    },
+    "tab-view": {
+        "current": "Current",
+        "daily": "5 days"
     },
     "weather-display": {
         "loading-info": "Loading weather data...",
@@ -14,6 +20,7 @@
         "rain": "Rain",
         "snow": "Snow",
         "last-1h": "in the last 1h",
-        "wind-speed": "Wind speed"
+        "wind-speed": "Wind speed",
+        "date-and-time": "Date and time"
     }
 }

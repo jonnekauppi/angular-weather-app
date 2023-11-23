@@ -11,6 +11,6 @@ describe('WeatherService', () => {
   });
 
   it('should be created', () => {
-    expect(service).to.be.ok;;
+    expect(service).to.be.ok;
   });
 });

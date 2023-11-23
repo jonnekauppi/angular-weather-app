@@ -1,33 +1,59 @@
-<div *ngIf="weatherData; else loading" class="card" data-cy="weather-container">
-    <div class="card-body">
-        <h4 class="card-title" data-cy="city-name">{{ weatherData.name }}</h4>
-        <div *ngFor="let weather of weatherData.weather" class="icon-container">
+<div *ngIf="currentCityWeather; else loading" class="card" data-cy="weather-container">
+    <div class="city-name">
+        <h4 class="card-title" data-cy="city-name">{{ currentCityWeather.name }}</h4>
+    </div>
+    <div class="card-body" *ngIf="currentTab === 'current'">
+        <div *ngFor="let weather of currentCityWeather.weather" class="icon-container">
             <img [src]="'http://openweathermap.org/img/wn/' + weather.icon + '.png'" alt="Weather Icon" />
         </div>
         <p class="card-text" data-cy="temperature-row">
             <strong>{{"weather-display.temperature" | translate}}:</strong>
-            {{ weatherData.main.temp }} {{currentUnitTypes.temp}}
+            {{ currentCityWeather.main.temp | number: '1.0-1' }} {{currentUnitTypes.temp}}
         </p>
         <p class="card-text">
             <strong>{{"weather-display.weather" | translate}}:</strong>
-            {{ weatherData.weather[0].main }} ({{ weatherData.weather[0].description }})
+            {{ currentCityWeather.weather[0].main }} ({{ currentCityWeather.weather[0].description }})
         </p>
-        <p class="card-text" *ngIf="weatherData.rain && weatherData.rain['1h']">
+        <p class="card-text" *ngIf="currentCityWeather.rain && currentCityWeather.rain['1h']">
             <strong>{{"weather-display.rain" | translate}}:</strong>
-            {{weatherData.rain['1h']}}mm {{"weather-display.last-1h" | translate}}
+            {{currentCityWeather.rain['1h']}}mm {{"weather-display.last-1h" | translate}}
         </p>
-        <p class="card-text" *ngIf="weatherData.snow && weatherData.snow['1h']">
+        <p class="card-text" *ngIf="currentCityWeather.snow && currentCityWeather.snow['1h']">
             <strong>{{"weather-display.snow" | translate}}:</strong>
-            {{weatherData.snow['1h']}}mm {{"weather-display.last-1h" | translate}}
+            {{currentCityWeather.snow['1h']}}mm {{"weather-display.last-1h" | translate}}
         </p>
         <p class="card-text">
             <strong>{{"weather-display.humidity" | translate}}:</strong>
-            {{ weatherData.main.humidity }}%
+            {{ currentCityWeather.main.humidity }}%
         </p>
         <p class="card-text" data-cy="wind-speed-row">
             <strong>{{"weather-display.wind-speed" | translate}}:</strong>
-            {{ weatherData.wind.speed }} {{currentUnitTypes.speed}}
+            {{ currentCityWeather.wind.speed | number: '1.0-1' }} {{currentUnitTypes.speed}}
         </p>
+    </div>
+    <div class="card-body" *ngIf="currentTab === 'daily'" data-cy="five-day-table">
+        <table class="table table-striped">
+            <thead style="height: 30px;">
+                <tr>
+                    <th>{{"weather-display.date-and-time" | translate}}</th>
+                    <th>{{"weather-display.temperature" | translate}}</th>
+                    <th style="text-align: center">{{"weather-display.weather" | translate}}</th>
+                    <th>{{"weather-display.wind-speed" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of fiveDayCityWeather">
+                    <td>{{ formatDate(item.dt) }}</td>
+                    <td>{{ item.main.temp | number: '1.0-1' }} {{currentUnitTypes.temp}}</td>
+                    <td>
+                        <img [src]="'http://openweathermap.org/img/wn/' + item.weather[0].icon + '.png'"
+                            alt="{{ item.weather[0].description }}">
+                        {{ item.weather[0].main }}
+                    </td>
+                    <td>{{ item.wind.speed | number: '1.0-1' }} {{currentUnitTypes.speed}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { UnitType } from 'src/app/data-models/search/search.type';
+import { TabSelection } from 'src/app/data-models/tab-view/tab-view.type';
+import { CityWeather } from 'src/app/data-models/weather/weather.type';
+import * as dayjs from 'dayjs';
 
 interface UnitsByType {
   [key: string]: Units;
@@ -18,11 +21,13 @@ interface Units {
   styleUrls: ['./weather-display.component.css']
 })
 export class WeatherDisplayComponent implements OnInit {
-  weatherData: any;
+  currentCityWeather: CityWeather | null = null;
+  fiveDayCityWeather: CityWeather[] = [];
   isLoading = false;
   error: string = '';
   selectedUnit: UnitType = UnitType.METRIC;
   subs: Subscription[] = [];
+  currentTab: TabSelection = TabSelection.CURRENT;
 
   unitsByType: UnitsByType = {
     'metric': {
@@ -37,22 +42,36 @@ export class WeatherDisplayComponent implements OnInit {
 
   currentUnitTypes: Units = this.unitsByType[this.selectedUnit];
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(
+    private weatherService: WeatherService
+  ) { }
 
   ngOnInit(): void {
     this.subs.push(this.weatherService.selectedUnitType$.subscribe((selectedUnit) => {
       this.selectedUnit = selectedUnit;
     }));
 
-    this.subs.push(this.weatherService.currentWeatherData$.subscribe((weatherData) => {
-      this.isLoading = true;
-      this.currentUnitTypes = this.unitsByType[this.selectedUnit];
-      this.weatherData = weatherData;
-      this.isLoading = false;
+    this.subs.push(
+      combineLatest([this.weatherService.currentCityWeather$, this.weatherService.fiveDayCityWeather$])
+        .subscribe(([currentCityWeather, fiveDayCityWeather]) => {
+          this.isLoading = true;
+          this.currentUnitTypes = this.unitsByType[this.selectedUnit];
+          this.currentCityWeather = currentCityWeather;
+          this.fiveDayCityWeather = fiveDayCityWeather || [];
+          this.isLoading = false;
+        })
+    );
+
+    this.subs.push(this.weatherService.selectedTab$.subscribe((tab) => {
+      this.currentTab = tab;
     }));
   }
 
   ngOnDestroy(): void {
     this.subs.forEach((sub) => sub.unsubscribe());
+  }
+
+  formatDate(timestamp: number): string {
+    return dayjs.unix(timestamp).format('dddd, DD.MM.YYYY HH:mm');
   }
 }

@@ -2,7 +2,19 @@ export interface WeatherApiResponse {
     message: string;
     cod: string;
     count: number;
+    city?: City;
     list: CityWeather[];
+}
+
+export interface City {
+    coord: Coordinates;
+    country: string;
+    id: number;
+    name: string;
+    population: number;
+    sunrise: number;
+    sunset: number;
+    timezone: number;
 }
 
 export interface CityWeather {

@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="#" [class.active]="activeTab === 'current'" (click)="selectTab('current')"
+            data-cy="tab-current">
+            {{ "tab-view.current" | translate }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" [class.active]="activeTab === 'daily'" (click)="selectTab('daily')"
+            data-cy="tab-daily">
+            {{ "tab-view.daily" | translate }}
+        </a>
+    </li>
+</ul>
